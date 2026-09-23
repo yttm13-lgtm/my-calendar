@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<title>Мой календарь</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f5f5f5;color:#222}
+.app{max-width:520px;margin:0 auto;padding:14px}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+h1{font-size:20px;margin:0}.sub{font-size:12px;color:#777;margin-top:2px}
+button{border:1px solid #ddd;background:#fff;border-radius:10px;padding:9px 11px;font-size:14px}
+.nav{display:flex;gap:7px;align-items:center}.nav button{font-size:20px;padding:5px 11px}
+.month{font-size:18px;font-weight:650;min-width:155px;text-align:center}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:4px}
+.week div{text-align:center;color:#777;font-size:11px;padding:3px}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.day{background:#fff;border:1px solid #e2e2e2;border-radius:9px;min-height:67px;padding:5px}
+.day.other{background:transparent;border:0}.num{font-size:11px;color:#777}
+.day input{display:block;width:100%;margin-top:5px;border:0;border-bottom:1px solid #ddd;background:transparent;text-align:center;font-size:18px;height:28px;outline:none}
+.day input:focus{border-bottom:2px solid #555}
+.actions{display:flex;justify-content:space-between;align-items:center;margin-top:10px}.hint{font-size:11px;color:#888}
+@media(max-width:360px){.app{padding:9px}.day{min-height:61px}.day input{font-size:16px}.month{min-width:130px}}
+
+body{background:linear-gradient(135deg,#f4f8ff,#fff7fb)}
+header{background:linear-gradient(135deg,#e8f0ff,#f8eaff);padding:10px 12px;border-radius:14px}
+.month{color:#4f46a5}
+.week div{color:#6875a8}
+.day{background:rgba(255,255,255,.92);border-color:#d9dff2}
+.day:nth-child(7n+6),.day:nth-child(7n){background:#fff7fa}
+.day input{border-bottom-color:#d6dbea}
+.day input:focus{border-bottom-color:#6c63c7}
+.nav button{background:#f0efff;border-color:#d9d5ff;color:#5b52b5}
+button{border-color:#d9dff2}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div><h1>Мой календарь</h1><div class="sub">В каждом дне — до двух цифр</div></div>
+  <button id="today">Сегодня</button>
+</header>
+<div class="nav">
+  <button id="prev" aria-label="Предыдущий месяц">‹</button>
+  <div id="month" class="month"></div>
+  <button id="next" aria-label="Следующий месяц">›</button>
+</div>
+<div class="week"><div>Пн</div><div>Вт</div><div>Ср</div><div>Чт</div><div>Пт</div><div>Сб</div><div>Вс</div></div>
+<div id="grid" class="grid"></div>
+<div class="actions"><span class="hint">Данные сохраняются в этом браузере</span><button id="clear">Очистить месяц</button></div>
+</div>
+<script>
+(function(){
+const key='my_calendar_v1';
+let data={};
+try{data=JSON.parse(localStorage.getItem(key)||'{}')}catch(e){}
+let view=new Date();
+view.setDate(1);
+const names=['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
+const monthEl=document.getElementById('month'),grid=document.getElementById('grid');
+function save(){try{localStorage.setItem(key,JSON.stringify(data))}catch(e){}}
+function id(y,m,d){return y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0')}
+function render(){
+ const y=view.getFullYear(),m=view.getMonth();
+ monthEl.textContent=names[m]+' '+y;
+ grid.innerHTML='';
+ const first=new Date(y,m,1).getDay();
+ const offset=(first+6)%7;
+ const days=new Date(y,m+1,0).getDate();
+ for(let i=0;i<offset;i++){
+  let x=document.createElement('div');
+  x.className='day other';
+  grid.appendChild(x)
+ }
+ for(let d=1;d<=days;d++){
+  let x=document.createElement('div');
+  x.className='day';
+  let n=document.createElement('div');
+  n.className='num';
+  n.textContent=d;
+  let inp=document.createElement('input');
+  inp.inputMode='numeric';
+  inp.maxLength=2;
+  inp.value=data[id(y,m,d)]||'';
+  inp.setAttribute('aria-label',d+' '+names[m]);
+  inp.addEventListener('input',()=>{
+   inp.value=inp.value.replace(/\D/g,'').slice(0,2);
+   data[id(y,m,d)]=inp.value;
+   save()
+  });
+  x.append(n,inp);
+  grid.appendChild(x);
+ }
+}
+document.getElementById('prev').onclick=()=>{
+ view.setMonth(view.getMonth()-1);
+ render()
+};
+document.getElementById('next').onclick=()=>{
+ view.setMonth(view.getMonth()+1);
+ render()
+};
+document.getElementById('today').onclick=()=>{
+ let t=new Date();
+ view=new Date(t.getFullYear(),t.getMonth(),1);
+ render()
+};
+document.getElementById('clear').onclick=()=>{
+ if(confirm('Очистить все цифры этого месяца?')){
+  const y=view.getFullYear(),m=view.getMonth(),days=new Date(y,m+1,0).getDate();
+  for(let d=1;d<=days;d++)delete data[id(y,m,d)];
+  save();
+  render()
+ }
+};
+render();
+})();
+</script>
+</body>
+</html>
