@@ -5,101 +5,355 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#eef4ff">
 <title>Мой календарь</title>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(135deg,#dff3ff 0%,#eee5ff 48%,#ffe8f0 100%);color:#26324a;min-height:100vh}
-.app{max-width:520px;margin:0 auto;padding:14px}
-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding:12px 14px;border-radius:16px;background:linear-gradient(135deg,#4f8cff,#8b6de8);color:white;box-shadow:0 5px 16px rgba(76,96,180,.22)}
-h1{font-size:21px;margin:0;color:#fff}
-.sub{font-size:12px;color:#eaf0ff;margin-top:3px}
-button{border:0;background:#fff;border-radius:11px;padding:9px 11px;font-size:14px;color:#4266b2;font-weight:600;box-shadow:0 3px 8px rgba(55,70,120,.15)}
-header button{color:#4c67b0}
-.nav{display:flex;gap:7px;align-items:center;justify-content:center;margin-bottom:8px}
-.nav button{font-size:22px;padding:5px 13px;background:#ffffffcc;color:#7652c8;border:2px solid #d5c5ff}
-.month{font-size:19px;font-weight:750;min-width:155px;text-align:center;color:#5a3fa3}
-.week{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:5px}
-.week div{text-align:center;font-weight:700;font-size:12px;padding:5px;border-radius:8px;background:#dce9ff;color:#3867ad}
-.week div:nth-child(2){background:#e5ddff;color:#7250b7}
-.week div:nth-child(3){background:#d9f4ea;color:#278264}
-.week div:nth-child(4){background:#fff0c9;color:#a16b00}
-.week div:nth-child(5){background:#ffe0e9;color:#b14c70}
-.week div:nth-child(6){background:#ffd9d9;color:#b33e50}
-.week div:nth-child(7){background:#e6d8ff;color:#7847b7}
-.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
-.day{background:#ffffffeb;border:2px solid #cfe0ff;border-radius:11px;min-height:70px;padding:5px;box-shadow:0 3px 7px rgba(64,79,130,.08)}
-.day:nth-child(7n+1){border-color:#b8d5ff}
-.day:nth-child(7n+2){border-color:#d1c0ff}
-.day:nth-child(7n+3){border-color:#b7e8d5}
-.day:nth-child(7n+4){border-color:#f1d58c}
-.day:nth-child(7n+5){border-color:#f2bfd0}
-.day:nth-child(7n+6){background:#fff0f3;border-color:#efb3c2}
-.day:nth-child(7n){background:#f5edff;border-color:#d3bdf5}
-.day.other{background:transparent;border:0;box-shadow:none}
-.num{font-size:11px;font-weight:700;color:#58719b}
-.day:nth-child(7n+6) .num,.day:nth-child(7n) .num{color:#a64b6b}
-.day input{display:block;width:100%;margin-top:5px;border:0;border-bottom:2px solid #cbd9ee;background:transparent;text-align:center;font-size:18px;height:28px;outline:none;color:#263b5c;font-weight:600}
-.day input:focus{border-bottom:3px solid #6d58d9}
 
-.total{
-  margin-top:11px;
-  padding:11px 14px;
-  border-radius:12px;
-  background:#ffffffd9;
-  border:2px solid #d5c5ff;
-  text-align:center;
-  font-size:17px;
-  font-weight:750;
-  color:#5a3fa3;
-  box-shadow:0 3px 8px rgba(64,79,130,.08);
+body{
+margin:0;
+font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+background:linear-gradient(135deg,#dff3ff 0%,#eee5ff 48%,#ffe8f0 100%);
+color:#26324a;
+min-height:100vh
 }
 
-.actions{display:flex;justify-content:space-between;align-items:center;margin-top:11px;gap:8px}
-.hint{font-size:11px;color:#687792}
-.actions button{background:#fff0f3;color:#a64b6b;border:1px solid #efb3c2}
+.app{
+max-width:560px;
+margin:0 auto;
+padding:14px
+}
 
-@media(max-width:360px){
-  .app{padding:9px}
-  .day{min-height:62px}
-  .day input{font-size:16px}
-  .month{min-width:130px}
+header{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-bottom:12px;
+padding:12px 14px;
+border-radius:16px;
+background:linear-gradient(135deg,#4f8cff,#8b6de8);
+color:white;
+box-shadow:0 5px 16px rgba(76,96,180,.22)
+}
+
+h1{
+font-size:21px;
+margin:0;
+color:#fff
+}
+
+.sub{
+font-size:12px;
+color:#eaf0ff;
+margin-top:3px
+}
+
+button{
+border:0;
+background:#fff;
+border-radius:11px;
+padding:9px 11px;
+font-size:14px;
+color:#4266b2;
+font-weight:600;
+box-shadow:0 3px 8px rgba(55,70,120,.15)
+}
+
+header button{
+color:#4c67b0
+}
+
+.nav{
+display:flex;
+gap:7px;
+align-items:center;
+justify-content:center;
+margin-bottom:8px
+}
+
+.nav button{
+font-size:22px;
+padding:5px 13px;
+background:#ffffffcc;
+color:#7652c8;
+border:2px solid #d5c5ff
+}
+
+.month{
+font-size:19px;
+font-weight:750;
+min-width:155px;
+text-align:center;
+color:#5a3fa3
+}
+
+/* Заголовок дней + колонка итогов */
+.week{
+display:grid;
+grid-template-columns:repeat(7,1fr) 34px;
+gap:5px;
+margin-bottom:5px
+}
+
+.week div{
+text-align:center;
+font-weight:700;
+font-size:12px;
+padding:5px;
+border-radius:8px;
+background:#dce9ff;
+color:#3867ad
+}
+
+.week div:nth-child(2){
+background:#e5ddff;
+color:#7250b7
+}
+
+.week div:nth-child(3){
+background:#d9f4ea;
+color:#278264
+}
+
+.week div:nth-child(4){
+background:#fff0c9;
+color:#a16b00
+}
+
+.week div:nth-child(5){
+background:#ffe0e9;
+color:#b14c70
+}
+
+.week div:nth-child(6){
+background:#ffd9d9;
+color:#b33e50
+}
+
+.week div:nth-child(7){
+background:#e6d8ff;
+color:#7847b7
+}
+
+.week .sum-head{
+background:transparent;
+color:#7652c8;
+font-size:11px;
+padding:5px 0
+}
+
+/* Каждая неделя — отдельная строка */
+.week-row{
+display:grid;
+grid-template-columns:repeat(7,1fr) 34px;
+gap:5px;
+margin-bottom:5px
+}
+
+.day{
+background:#ffffffeb;
+border:2px solid #cfe0ff;
+border-radius:11px;
+min-height:70px;
+padding:5px;
+box-shadow:0 3px 7px rgba(64,79,130,.08)
+}
+
+.day:nth-child(7n+1){
+border-color:#b8d5ff
+}
+
+.day:nth-child(7n+2){
+border-color:#d1c0ff
+}
+
+.day:nth-child(7n+3){
+border-color:#b7e8d5
+}
+
+.day:nth-child(7n+4){
+border-color:#f1d58c
+}
+
+.day:nth-child(7n+5){
+border-color:#f2bfd0
+}
+
+.day:nth-child(7n+6){
+background:#fff0f3;
+border-color:#efb3c2
+}
+
+.day:nth-child(7n){
+background:#f5edff;
+border-color:#d3bdf5
+}
+
+.day.other{
+background:transparent;
+border:0;
+box-shadow:none
+}
+
+.num{
+font-size:11px;
+font-weight:700;
+color:#58719b
+}
+
+.day:nth-child(7n+6) .num,
+.day:nth-child(7n) .num{
+color:#a64b6b
+}
+
+.day input{
+display:block;
+width:100%;
+margin-top:5px;
+border:0;
+border-bottom:2px solid #cbd9ee;
+background:transparent;
+text-align:center;
+font-size:18px;
+height:28px;
+outline:none;
+color:#263b5c;
+font-weight:600
+}
+
+.day input:focus{
+border-bottom:3px solid #6d58d9
+}
+
+/* Недельный итог */
+.week-total{
+display:flex;
+align-items:center;
+justify-content:center;
+min-height:70px;
+font-size:13px;
+font-weight:750;
+color:#7652c8;
+background:#ffffffb8;
+border:1px solid #d5c5ff;
+border-radius:10px;
+box-shadow:0 2px 5px rgba(64,79,130,.07)
+}
+
+.week-total.empty{
+color:#a9a2ba;
+font-weight:500
+}
+
+.total{
+margin-top:11px;
+padding:11px 14px;
+border-radius:12px;
+background:#ffffffd9;
+border:2px solid #d5c5ff;
+text-align:center;
+font-size:17px;
+font-weight:750;
+color:#5a3fa3;
+box-shadow:0 3px 8px rgba(64,79,130,.08)
+}
+
+.actions{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-top:11px;
+gap:8px
+}
+
+.hint{
+font-size:11px;
+color:#687792
+}
+
+.actions button{
+background:#fff0f3;
+color:#a64b6b;
+border:1px solid #efb3c2
+}
+
+@media(max-width:380px){
+
+.app{
+padding:9px
+}
+
+.day{
+min-height:62px
+}
+
+.day input{
+font-size:16px
+}
+
+.month{
+min-width:130px
+}
+
+.week,
+.week-row{
+grid-template-columns:repeat(7,1fr) 30px;
+gap:4px
+}
+
+.week-total{
+min-height:62px;
+font-size:12px
+}
+
+.week div{
+font-size:11px
+}
 }
 </style>
 </head>
+
 <body>
 
 <div class="app">
 
 <header>
-  <div>
-    <h1>Мой календарь</h1>
-    <div class="sub">В каждом дне — до двух цифр</div>
-  </div>
-  <button id="today">Сегодня</button>
+<div>
+<h1>Мой календарь</h1>
+<div class="sub">В каждом дне — до двух цифр</div>
+</div>
+
+<button id="today">Сегодня</button>
 </header>
 
 <div class="nav">
-  <button id="prev" aria-label="Предыдущий месяц">‹</button>
-  <div id="month" class="month"></div>
-  <button id="next" aria-label="Следующий месяц">›</button>
+<button id="prev" aria-label="Предыдущий месяц">‹</button>
+<div id="month" class="month"></div>
+<button id="next" aria-label="Следующий месяц">›</button>
 </div>
 
+<!-- Заголовок -->
 <div class="week">
-  <div>Пн</div>
-  <div>Вт</div>
-  <div>Ср</div>
-  <div>Чт</div>
-  <div>Пт</div>
-  <div>Сб</div>
-  <div>Вс</div>
+<div>Пн</div>
+<div>Вт</div>
+<div>Ср</div>
+<div>Чт</div>
+<div>Пт</div>
+<div>Сб</div>
+<div>Вс</div>
+<div class="sum-head">Σ</div>
 </div>
 
-<div id="grid" class="grid"></div>
+<!-- Сюда будут выводиться недели -->
+<div id="grid"></div>
 
-<div id="total" class="total">Итого за месяц: 0</div>
+<!-- Общий итог -->
+<div id="total" class="total">
+Итого за месяц: 0
+</div>
 
 <div class="actions">
-  <span class="hint">Данные сохраняются в этом браузере</span>
-  <button id="clear">Очистить месяц</button>
+<span class="hint">Данные сохраняются в этом браузере</span>
+<button id="clear">Очистить месяц</button>
 </div>
 
 </div>
@@ -110,16 +364,17 @@ header button{color:#4c67b0}
 const key='my_calendar_v1';
 
 let data={};
+
 try{
-  data=JSON.parse(localStorage.getItem(key)||'{}')
+data=JSON.parse(localStorage.getItem(key)||'{}')
 }catch(e){}
 
 let view=new Date();
 view.setDate(1);
 
 const names=[
-  'Январь','Февраль','Март','Апрель','Май','Июнь',
-  'Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'
+'Январь','Февраль','Март','Апрель','Май','Июнь',
+'Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'
 ];
 
 const monthEl=document.getElementById('month');
@@ -127,122 +382,228 @@ const grid=document.getElementById('grid');
 const totalEl=document.getElementById('total');
 
 function save(){
-  try{
-    localStorage.setItem(key,JSON.stringify(data))
-  }catch(e){}
+try{
+localStorage.setItem(key,JSON.stringify(data))
+}catch(e){}
 }
 
 function id(y,m,d){
-  return y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0')
+return y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0')
 }
 
-function updateTotal(){
-  const y=view.getFullYear();
-  const m=view.getMonth();
-  const days=new Date(y,m+1,0).getDate();
+function valueFor(y,m,d){
+const value=data[id(y,m,d)];
+return value!==undefined && value!=='' ? Number(value)||0 : 0;
+}
 
-  let total=0;
+function updateTotals(){
 
-  for(let d=1;d<=days;d++){
-    const value=data[id(y,m,d)];
+const y=view.getFullYear();
+const m=view.getMonth();
+const days=new Date(y,m+1,0).getDate();
 
-    if(value!==undefined && value!==''){
-      total+=Number(value)||0;
-    }
-  }
+let monthTotal=0;
 
-  totalEl.textContent='Итого за месяц: '+total;
+for(let d=1;d<=days;d++){
+monthTotal+=valueFor(y,m,d);
+}
+
+totalEl.textContent='Итого за месяц: '+monthTotal;
+
+const rows=grid.querySelectorAll('.week-row');
+
+rows.forEach(row=>{
+
+let weekTotal=0;
+
+row.querySelectorAll('.day').forEach(day=>{
+
+const dayNumber=Number(day.dataset.day);
+
+if(dayNumber){
+weekTotal+=valueFor(y,m,dayNumber);
+}
+
+});
+
+const totalElWeek=row.querySelector('.week-total');
+
+totalElWeek.textContent=weekTotal;
+
+if(weekTotal===0){
+totalElWeek.classList.add('empty');
+}else{
+totalElWeek.classList.remove('empty');
+}
+
+});
+
 }
 
 function render(){
 
-  const y=view.getFullYear();
-  const m=view.getMonth();
+const y=view.getFullYear();
+const m=view.getMonth();
 
-  monthEl.textContent=names[m]+' '+y;
-  grid.innerHTML='';
+monthEl.textContent=names[m]+' '+y;
+grid.innerHTML='';
 
-  const first=new Date(y,m,1).getDay();
-  const offset=(first+6)%7;
+const first=new Date(y,m,1).getDay();
+const offset=(first+6)%7;
 
-  const days=new Date(y,m+1,0).getDate();
+const days=new Date(y,m+1,0).getDate();
 
-  for(let i=0;i<offset;i++){
-    let x=document.createElement('div');
-    x.className='day other';
-    grid.appendChild(x);
-  }
+let currentRow=null;
 
-  for(let d=1;d<=days;d++){
+/* Пустые дни перед первым числом */
+for(let i=0;i<offset;i++){
 
-    let x=document.createElement('div');
-    x.className='day';
+if(i%7===0){
+currentRow=document.createElement('div');
+currentRow.className='week-row';
+grid.appendChild(currentRow);
+}
 
-    let n=document.createElement('div');
-    n.className='num';
-    n.textContent=d;
+let x=document.createElement('div');
+x.className='day other';
 
-    let inp=document.createElement('input');
+currentRow.appendChild(x);
+}
 
-    inp.inputMode='numeric';
-    inp.maxLength=2;
-    inp.value=data[id(y,m,d)]||'';
-    inp.setAttribute(
-      'aria-label',
-      d+' '+names[m]
-    );
+/* Дни месяца */
+for(let d=1;d<=days;d++){
 
-    inp.addEventListener('input',()=>{
+const position=(offset+d-1)%7;
 
-      inp.value=inp.value
-        .replace(/\D/g,'')
-        .slice(0,2);
+if(position===0){
 
-      data[id(y,m,d)]=inp.value;
+currentRow=document.createElement('div');
+currentRow.className='week-row';
+grid.appendChild(currentRow);
 
-      save();
-      updateTotal();
+}
 
-    });
+let x=document.createElement('div');
 
-    x.append(n,inp);
-    grid.appendChild(x);
-  }
+x.className='day';
+x.dataset.day=d;
 
-  updateTotal();
+let n=document.createElement('div');
+
+n.className='num';
+n.textContent=d;
+
+let inp=document.createElement('input');
+
+inp.inputMode='numeric';
+inp.maxLength=2;
+inp.value=data[id(y,m,d)]||'';
+
+inp.setAttribute(
+'aria-label',
+d+' '+names[m]
+);
+
+inp.addEventListener('input',()=>{
+
+inp.value=inp.value
+.replace(/\D/g,'')
+.slice(0,2);
+
+data[id(y,m,d)]=inp.value;
+
+save();
+updateTotals();
+
+});
+
+x.append(n,inp);
+currentRow.appendChild(x);
+
+/* После воскресенья добавляем итог недели */
+if(position===6){
+
+let totalBox=document.createElement('div');
+
+totalBox.className='week-total';
+
+currentRow.appendChild(totalBox);
+
+}
+
+}
+
+/* Если последняя неделя закончилась не в воскресенье */
+if(currentRow){
+
+const cells=currentRow.querySelectorAll('.day').length;
+
+if(cells>0 && cells<7){
+
+while(currentRow.querySelectorAll('.day').length<7){
+
+let empty=document.createElement('div');
+
+empty.className='day other';
+
+currentRow.appendChild(empty);
+
+}
+
+let totalBox=document.createElement('div');
+
+totalBox.className='week-total';
+
+currentRow.appendChild(totalBox);
+
+}
+
+}
+
+updateTotals();
+
 }
 
 document.getElementById('prev').onclick=()=>{
-  view.setMonth(view.getMonth()-1);
-  render();
+view.setMonth(view.getMonth()-1);
+render();
 };
 
 document.getElementById('next').onclick=()=>{
-  view.setMonth(view.getMonth()+1);
-  render();
+view.setMonth(view.getMonth()+1);
+render();
 };
 
 document.getElementById('today').onclick=()=>{
-  let t=new Date();
-  view=new Date(t.getFullYear(),t.getMonth(),1);
-  render();
+let t=new Date();
+
+view=new Date(
+t.getFullYear(),
+t.getMonth(),
+1
+);
+
+render();
 };
 
 document.getElementById('clear').onclick=()=>{
 
-  if(confirm('Очистить все цифры этого месяца?')){
+if(confirm('Очистить все цифры этого месяца?')){
 
-    const y=view.getFullYear();
-    const m=view.getMonth();
-    const days=new Date(y,m+1,0).getDate();
+const y=view.getFullYear();
+const m=view.getMonth();
 
-    for(let d=1;d<=days;d++){
-      delete data[id(y,m,d)];
-    }
+const days=new Date(y,m+1,0).getDate();
 
-    save();
-    render();
-  }
+for(let d=1;d<=days;d++){
+delete data[id(y,m,d)];
+}
+
+save();
+render();
+
+}
+
 };
 
 render();
